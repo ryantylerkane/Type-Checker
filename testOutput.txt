@@ -1,0 +1,17 @@
+Display return types of functions:
+
+{test_cond=int}
+
+Display parameter types of functions:
+
+{test_cond={n=int}}
+
+Display parameter types of functions by position:
+
+{test_cond={1=int}}
+
+Type Error: The expressions proceeding + are of incompatible types.
+Type Error: The expressions proceeding + are of incompatible types.
+Type Error: The expressions proceeding + are of incompatible types.
+Type Error: Argument proceeding 'then' and argument proceeding 'else' are not of the same type.
+Type Error: The return type of the function 'test_cond' does not match the type of the body expressions.

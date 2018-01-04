@@ -1,36 +1,57 @@
+import java.util.*;
 
-public class Header{
-
-	Type type;
-	FunName name;
-	ParameterList parameters;
+class Header
+{
+	String type;
+	String funName;
+	ParameterList parameterList; // parameterList is null if <parameter list> is empty.
 	
-	Header(Type t, FunName n, ParameterList p)
+	Header(String t, String f, ParameterList p)
 	{
-		type=t;
-		name=n;
-		parameters=p;
+		type = t;
+		funName = f;
+		parameterList = p;
 	}
-	
-	public void printParseTree(String indent) 
+
+	String returnType()
 	{
-		IO.displayln(indent + indent.length() + " <header> ");
-		type.printParseTree(indent + " ");
-		name.printParseTree(indent+ " ");
-		if (parameters!=null) //Need to update this
+		return type;
+	}
+
+	String funName()
+	{
+		return funName;
+	}
+
+	void printParseTree(String indent)
+	{
+		IO.displayln(indent + indent.length() + " <header>");
+							  
+		String indent1 = indent+" ";
+
+		IO.displayln(indent1 + indent1.length() + " <type> " + type);
+		IO.displayln(indent1 + indent1.length() + " <fun name> " + funName);
+		if ( parameterList != null )
 		{
-			parameters.printParseTree(indent+ " ");
+			IO.displayln(indent1 + indent1.length() + " <parameter list>");
+			parameterList.printParseTree(indent1+" ");
 		}
 	}
-	
-	public void buildTypeMaps()
+
+	void buildTypeMaps()
 	{
-		TypeChecker.funTypeMap.put(name.id,TypeVal.toTypeVal(type.getType()));
-		if(parameters!=null)
+		TypeChecker.funTypeMap.put(funName, TypeVal.toTypeVal(type));
+		if ( parameterList != null )
 		{
-			TypeChecker.paramTypeMap.put(name.id, parameters.buildParamTypeMaps());
-			TypeChecker.paramNumTypeMap.put(name.id, parameters.buildNumMaps(1));
-		}
-	
+			HashMap <Integer, String> funParamTemp = new HashMap<Integer, String>(); //Declare a new HashMap to serve as the value of the funFormalParamAndBodyExp HashMap.
+			HashMap<String,TypeVal> paramMap = new HashMap<String,TypeVal>();
+			HashMap<Integer,TypeVal> paramNumMap = new HashMap<Integer,TypeVal>();
+
+			parameterList.buildTypeMaps(1, paramMap, paramNumMap, funParamTemp);
+
+			TypeChecker.funFormalParamAndBodyExp.put(funName, funParamTemp); //Add the function name along with the parameters and their position in the list.
+			TypeChecker.paramTypeMap.put(funName, paramMap);
+			TypeChecker.paramNumTypeMap.put(funName, paramNumMap);
+		}			
 	}
 }

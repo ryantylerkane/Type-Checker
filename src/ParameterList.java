@@ -1,28 +1,21 @@
-import java.util.HashMap;
+import java.util.*;
 
-public class ParameterList {
+class ParameterList
+{
+	Parameters parameters;
+	
+	ParameterList(Parameters ps)
+	{
+		parameters = ps;
+	}
+	
+	void printParseTree(String indent)
+	{
+		parameters.printParseTree(indent);
+	}
 
-	Parameters param;
-
-	ParameterList(Parameters p)
+	void buildTypeMaps(int i, HashMap<String,TypeVal> paramMap, HashMap<Integer,TypeVal> paramNumMap, HashMap<Integer, String> funFormalParamAndBodyExp)
 	{
-		param = p;
+		parameters.buildTypeMaps(i, paramMap, paramNumMap, funFormalParamAndBodyExp);
 	}
-	
-	public void printParseTree(String indent)
-	{
-		IO.displayln(indent + indent.length()+  " <parameter list> " );
-		param.printParseTree(indent+ " ");
-	}
-	
-	public HashMap<String, TypeVal> buildParamTypeMaps()
-	{
-		return param.buildParamTypeMaps();
-	}
-	
-	public HashMap<Integer, TypeVal> buildNumMaps(int numParams)
-	{
-		return param.buildNumMaps(numParams);
-	}
-	
 }

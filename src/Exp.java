@@ -1,13 +1,8 @@
+import java.util.*;
 
-abstract class Exp extends ExpList{
-	
-	public void printParseTree(String indent)
-	{
-		IO.displayln(indent + indent.length() + " <exp>" );
-	}
-	
-	abstract TypeVal typeEval();
-	
-	static String funName; //Use a String to hold the current function being typeChecked in the event the ID needs to be checked.
-
+abstract class Exp
+{
+	abstract void printParseTree(String indent);
+	abstract TypeVal typeEval(HashMap<String,TypeVal> paramMap);
+	abstract Val Eval(HashMap <String, Val> funCallState);
 }

@@ -1,43 +1,35 @@
-
-public class MultipleFunDef extends FunDefList {
+class MultipleFunDef extends FunDefList
+{
+	FunDef funDef;
+	FunDefList funDefList;
 	
-	SingleFunDef funDef;
-	FunDefList list;
-	
-	MultipleFunDef(SingleFunDef fd, FunDefList l)
+	MultipleFunDef(FunDef fdef, FunDefList fdeflist)
 	{
-		funDef=fd;
-		list = l;
+		funDef = fdef;
+		funDefList = fdeflist;
 	}
 	
-	public void printParseTree(String indent)
+	void printParseTree(String indent)
 	{
 		funDef.printParseTree(indent);
-		list.printParseTree(indent);
-	}
-	
-	public void buildTypeMaps()
-	{
-		funDef.buildTypeMaps();
-		list.buildTypeMaps();
-	}
-	
-	public TypeVal typeEval()
-	{
-		if(list==null && funDef.typeEval() != TypeVal.Error)
-		{
-			return funDef.typeEval();
-			//return TypeVal.Correct;
-		}
-		else if (list != null && funDef.typeEval() != TypeVal.Error)
-		{
-			
-			return list.typeEval();
-		}
-		else
-		{
-			return TypeVal.Error;
-		}
+		IO.displayln("\n--------------------\n");
+		funDefList.printParseTree(indent);
 	}
 
+	void buildTypeMaps()
+	{
+		funDef.buildTypeMaps();
+		funDefList.buildTypeMaps();
+	}
+	
+	TypeVal typeEval()
+	{
+		TypeVal funDefType = funDef.typeEval();
+		TypeVal funDefListType = funDefList.typeEval();
+
+		if ( funDefType == TypeVal.Correct && funDefListType == TypeVal.Correct )
+			return TypeVal.Correct;
+		else
+			return TypeVal.Error;
+	}
 }
